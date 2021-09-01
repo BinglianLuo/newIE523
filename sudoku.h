@@ -12,6 +12,8 @@
 #include <fstream>
 #include <math.h>
 
+
+
 using std::vector;
 using namespace std;
 class Sudoku 
