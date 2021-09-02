@@ -65,8 +65,8 @@ class Sudoku
         }
         vector <int> pos(9,0);
         for (int i = 0; i < P.size(); i++){
-            pos[P[i]]++;
-            if (pos[P[i]]==2){
+            pos[P[i]-1]++;
+            if (pos[P[i]-1]==2){
                 return false;
             }
         }
@@ -83,7 +83,7 @@ public:
 		// guidelines of figure 23 of the bootcamp material
         //double value_input;
         //vector <double> P;
-        ifstream input_file("input1");
+        
         /**
         if (input_file.is_open()){
             while(input_file >> value_input){
@@ -93,13 +93,12 @@ public:
         else
             std::cout << "oops" <<endl;
         */
+        ifstream input_file("input1");
         for (int i = 0; i < 9; i++){
             for (int j = 0; j < 9; j++){
                 input_file >> puzzle[i][j];
             }
         }
-        
-    //  std::cout << col_valid(8);
 	}
 	
 	// Public member function that prints the puzzle when called
@@ -136,7 +135,42 @@ public:
 		// each entry is row-, col- and block-valid...
 		
 		// use the pseudo code of figure 3 of the description
-        return 1;
+        
+        int flag = 0;
+        int row_loc = 0, col_loc = 0;
+        for (int i = 0; i < 9; i++){
+            for (int j = 0; j < 9 ; j++){
+                if (puzzle[i][j] == 0){
+                    flag = 1;
+                    row_loc = i;
+                    col_loc = j;
+                    break;
+                }
+            }
+            if (flag == 1){
+                break;
+            }
+        }
+        
+        if (flag == 0){
+            return true;
+        }
+        
+        else
+        {
+            for (int k = 1; k <= 9; k++){
+                puzzle[row_loc][col_loc] = k;
+               // std::cout << puzzle[row_loc][col_loc];
+            //     std::cout << row_valid(row_loc) << col_valid(col_loc) << block_valid(row_loc,col_loc) << endl;
+                if (row_valid(row_loc) && col_valid(col_loc) && block_valid(row_loc,col_loc) && Solve(row_loc,col_loc)){
+                    return true;
+                    
+                }
+                else
+                    puzzle[row_loc][col_loc] = 0;
+            }
+        }
+        return false;
 	}
 };
 

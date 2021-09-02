@@ -13,7 +13,7 @@ int main (int argc, char * const argv[])
 	x.print_puzzle();
 	x.Solve(0,0);
     //x.alternate_Solve(0, 0);
-	//x.print_puzzle();
+	x.print_puzzle();
 
 	
     return 0;
