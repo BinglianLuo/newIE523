@@ -80,23 +80,14 @@ public:
 	// Public member function that reads the incomplete puzzle
 	// we are not doing any checks on the input puzzle -- that is,
 	// we are assuming they are indeed valid
-	void read_puzzle() //int argc, char * const argv[]
+	void read_puzzle(int argc, char * const argv[]) //
 	{
 		// write code that reads the input puzzle using the 
 		// guidelines of figure 23 of the bootcamp material
         //double value_input;
         //vector <double> P;
-        
-        /**
-        if (input_file.is_open()){
-            while(input_file >> value_input){
-                P.push_back(value_input);
-            }
-        }
-        else
-            std::cout << "oops" <<endl;
-        */
-        ifstream input_file("input6");
+
+        ifstream input_file(argv[1]);
         for (int i = 0; i < 9; i++){
             for (int j = 0; j < 9; j++){
                 input_file >> puzzle[i][j];
