@@ -11,9 +11,9 @@ int main (int argc, char * const argv[])
 	Sudoku x;
 	x.read_puzzle(); //argc, argv
 	x.print_puzzle();
-	x.Solve(0,0);
-    //x.alternate_Solve(0, 0);
-	x.print_puzzle();
+	// x.Solve(0,0); // find ONE solution function
+    x.alternate_Solve(0, 0); // fine ALL solutions function
+	// x.print_puzzle();
 
 	
     return 0;

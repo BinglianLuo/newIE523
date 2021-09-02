@@ -20,6 +20,7 @@ class Sudoku
 { 
 	// Private
 	int puzzle[9][9];
+    int number_of_solutions = 0; // for all solutions
 	
 	// Private member function that checks if the named row is valid
 	bool row_valid(int row)
@@ -53,6 +54,7 @@ class Sudoku
 	bool block_valid(int row, int col)
 	{
 		// check 3 x 3 block validity
+        // Step 1, find the block in which [row,col] is located, and then put the factors into a vector
         int a = floor(row/3);
         int b = floor(col/3);
         vector <int> P;
@@ -63,6 +65,7 @@ class Sudoku
                 }
             }
         }
+        // Step2, check the validity of vector P
         vector <int> pos(9,0);
         for (int i = 0; i < P.size(); i++){
             pos[P[i]-1]++;
@@ -93,7 +96,7 @@ public:
         else
             std::cout << "oops" <<endl;
         */
-        ifstream input_file("input1");
+        ifstream input_file("input6");
         for (int i = 0; i < 9; i++){
             for (int j = 0; j < 9; j++){
                 input_file >> puzzle[i][j];
@@ -105,7 +108,7 @@ public:
 
     void print_puzzle()
 	{
-		std::cout << std::endl << "Board Position" << std::endl;
+		std::cout << "Board Position" << std::endl;
 		for (int i = 0; i < 9; i++)
 		{
 			for (int j = 0; j < 9; j++)
@@ -127,7 +130,7 @@ public:
 
 	// Public member function that (recursively) implements the brute-force 
 	// search for possible solutions to the incomplete Sudoku puzzle
-	bool Solve(int row, int col)
+	bool Solve(int row, int col) // Find ONE Solution Function
 	{
 		// this part of the code identifies the row and col number of the 
 		// first incomplete (i.e. 0) entry in the puzzle.  If the puzzle has
@@ -136,6 +139,7 @@ public:
 		
 		// use the pseudo code of figure 3 of the description
         
+        // Step 1, locate the first 0 in the puzzle, and record the row & col of this zero
         int flag = 0;
         int row_loc = 0, col_loc = 0;
         for (int i = 0; i < 9; i++){
@@ -148,11 +152,13 @@ public:
                 }
             }
             if (flag == 1){
-                break;
+                break; // Jump out of the loop, because we only need to find the FISRT 0
             }
         }
         
         if (flag == 0){
+            std::cout << endl << "Final Solution" << endl;
+            print_puzzle();
             return true;
         }
         
@@ -161,7 +167,7 @@ public:
             for (int k = 1; k <= 9; k++){
                 puzzle[row_loc][col_loc] = k;
                // std::cout << puzzle[row_loc][col_loc];
-            //     std::cout << row_valid(row_loc) << col_valid(col_loc) << block_valid(row_loc,col_loc) << endl;
+               // std::cout << row_valid(row_loc) << col_valid(col_loc) << block_valid(row_loc,col_loc) << endl;
                 if (row_valid(row_loc) && col_valid(col_loc) && block_valid(row_loc,col_loc) && Solve(row_loc,col_loc)){
                     return true;
                     
@@ -172,6 +178,62 @@ public:
         }
         return false;
 	}
+
+    bool alternate_Solve(int row, int col) // Find ALL Solution Function
+    {
+        // this part of the code identifies the row and col number of the
+        // first incomplete (i.e. 0) entry in the puzzle.  If the puzzle has
+        // no zeros, the variable row will be 9 => the puzzle is done, as
+        // each entry is row-, col- and block-valid...
+        
+        // use the pseudo code of figure 3 of the description
+        
+        // Step 1, locate the first 0 in the puzzle, and record the row & col of this zero
+        int flag = 0;
+        int row_loc = 0, col_loc = 0;
+        for (int i = 0; i < 9; i++){
+            for (int j = 0; j < 9 ; j++){
+                if (puzzle[i][j] == 0){
+                    flag = 1;
+                    row_loc = i;
+                    col_loc = j;
+                    break;
+                }
+            }
+            if (flag == 1){
+                break; // Jump out of the loop, because we only need to find the FISRT 0
+            }
+        }
+        
+        if (flag == 0){
+            number_of_solutions++;
+            std::cout << endl << "Solution #" << number_of_solutions << endl;
+            print_puzzle();
+        }
+        
+        else
+        {
+            bool found_at_least_one_solution = false;
+            for (int k = 1; k <= 9; k++){
+                puzzle[row_loc][col_loc] = k;
+               // std::cout << puzzle[row_loc][col_loc];
+               // std::cout << row_valid(row_loc) << col_valid(col_loc) << block_valid(row_loc,col_loc) << endl;
+                if (row_valid(row_loc) && col_valid(col_loc) && block_valid(row_loc,col_loc) && alternate_Solve(row_loc,col_loc)){
+                    found_at_least_one_solution = true;
+                }
+                else
+                    puzzle[row_loc][col_loc] = 0;
+            }
+        }
+        return false;
+    }
+
+
+
+
+
 };
+
+
 
 #endif
