@@ -9,8 +9,7 @@
 int main (int argc, char * const argv[]) //
 {
 	Sudoku x;
-    //cout << "File name" << endl;
-    //cin >> argv[1];
+    cout << "Input File name: " << argv[1] << endl;
 	x.read_puzzle(argc, argv); //
 	x.print_puzzle();
 	// x.Solve(0,0); // find ONE solution function
