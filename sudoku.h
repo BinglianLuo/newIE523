@@ -161,7 +161,6 @@ public:
                // std::cout << row_valid(row_loc) << col_valid(col_loc) << block_valid(row_loc,col_loc) << endl;
                 if (row_valid(row_loc) && col_valid(col_loc) && block_valid(row_loc,col_loc) && Solve(row_loc,col_loc)){
                     return true;
-                    
                 }
                 else
                     puzzle[row_loc][col_loc] = 0;

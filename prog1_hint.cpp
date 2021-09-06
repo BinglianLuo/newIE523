@@ -12,8 +12,8 @@ int main (int argc, char * const argv[]) //
     cout << "Input File name: " << argv[1] << endl;
 	x.read_puzzle(argc, argv); //
 	x.print_puzzle();
-	// x.Solve(0,0); // find ONE solution function
-    x.alternate_Solve(0, 0); // fine ALL solutions function
+	x.Solve(0,0); // find ONE solution function
+    // x.alternate_Solve(0, 0); // fine ALL solutions function
 	// x.print_puzzle();
 
 	
